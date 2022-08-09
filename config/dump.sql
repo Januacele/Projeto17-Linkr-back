@@ -2,10 +2,10 @@
 CREATE TABLE "users"
 (
     "id" SERIAL NOT NULL PRIMARY KEY,
-    "username" text UNIQUE NOT NULL,
-    "email" text UNIQUE NOT NULL,
-    "password" text NOT NULL,
-    "profile_image" text NOT NULL,
+    "username" TEXT UNIQUE NOT NULL,
+    "email" TEXT UNIQUE NOT NULL,
+    "password" TEXT NOT NULL,
+    "profile_image" TEXT NOT NULL,
     "created_at" TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW()
 );
 
@@ -13,7 +13,7 @@ CREATE TABLE "sessions"
 (
     "id" SERIAL NOT NULL PRIMARY KEY,
     "user_id" INTEGER NOT NULL REFERENCES "users"("id"),
-    "token" text UNIQUE NOT NULL,
+    "token" TEXT UNIQUE NOT NULL,
     "created_at" TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW()
 );
 
@@ -23,7 +23,7 @@ CREATE TABLE "posts"
     "user_id" INTEGER NOT NULL REFERENCES "users"("id"),
     "message" TEXT,
     "shared_url" TEXT NOT NULL,
-    "created_at" TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
+    "created_at" TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE "postsDeleted"
