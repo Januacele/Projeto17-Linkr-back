@@ -13,7 +13,7 @@ export async function signupMiddleware(req, res, next) {
     }
     next()
   } catch (error) {
-    console.log("mid 2")
+   
   
     return res.status(500).send(error.message)
   }
@@ -21,7 +21,7 @@ export async function signupMiddleware(req, res, next) {
 
 export async function signinMiddleware(req, res, next) {
   const { email, password } = req.body
-  console.log("mid")
+ 
   try {
     const { rows: users } = await authRepository.getUserByEmail(email)
     const [user] = users

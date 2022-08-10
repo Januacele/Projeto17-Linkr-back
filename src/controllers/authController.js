@@ -8,7 +8,7 @@ import authRepository from "../repositories/authRepository.js"
 export async function postUser(req, res) {
   const { username, email, password, profileImage } = req.body
   const hashedPassword = bcrypt.hashSync(password, 10)
-  console.log("controller")
+  
   
   try {
     await authRepository.insertUserDb(
@@ -19,7 +19,7 @@ export async function postUser(req, res) {
     )
     res.sendStatus(201)
   } catch (error) {
-   console.log("Error no controller:", error)
+   
     return res.status(500).send(error.message)
   }
 }
@@ -32,7 +32,7 @@ export async function postSignin(req, res) {
     await authRepository.insertSession(user.id, token)
     res.send({ ...user, token })
   } catch (error) {
-    verboseConsoleLog("Error:", error)
+    
     return res.status(500).send(error.message)
   }
 }
@@ -41,7 +41,7 @@ export async function postAutoLogin(req, res) {
   try {
     res.sendStatus(200)
   } catch {
-    verboseConsoleLog("Error:", error)
+    
     res.sendStatus(500)
   }
 }
@@ -52,7 +52,7 @@ export async function deleteSession(req, res) {
     await authRepository.deleteSessionByToken(token)
     res.sendStatus(200)
   } catch {
-    verboseConsoleLog("Error:", error)
+    
     res.sendStatus(500)
   }
 }
