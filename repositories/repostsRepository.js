@@ -1,6 +1,6 @@
 import db from '../config/db.js';
 
-export async function getRepostsTimeline(){
+export async function getRepostsTimeline(user_id){
     return db.query(`
     SELECT reposts.*, follows.follower_id, follows.followed_id 
     FROM reposts
