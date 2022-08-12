@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { validateToken } from '../middlewares/validateToken.js';
-import { validateTimeline } from '../middlewares/validateTimeline.js';
+import { validateToken } from '../../middlewares/validateToken.js';
+import { validateTimeline } from '../../middlewares/validateTimeline.js';
 import { getTimelineController } from '../controllers/timelineController.js';
 
 
