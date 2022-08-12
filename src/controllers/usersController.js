@@ -1,9 +1,9 @@
-import postRepository from '../repositories/usersRepository.js';
+import userRepository from '../repositories/usersRepository.js';
 
 
 export async function getUsersByNameFollowersFirst(req, res){
     try {
-        const result = await postRepository.getUserByName();
+        const result = await userRepository.getUserByName();
         return res.status(200).send(result);
 
     } catch (error) {
@@ -13,7 +13,7 @@ export async function getUsersByNameFollowersFirst(req, res){
 
 export const getUser = async (req, res) => {
     try {
-        const result = await postRepository.getUser();
+        const result = await userRepository.getUser();
         const user = result.rows[0]
         return res.status(200).send(user)
 

@@ -1,4 +1,4 @@
-import res from 'express/lib/response';
+
 import db from '../config/db.js';
 
 
@@ -31,3 +31,11 @@ export async function getUser(){
   JOIN sessions ON sessions.token = $1
   WHERE users.id = sessions."userId";`, [token]);
 }
+
+export const userRepository = {
+  getUserById,
+  getUserByName,
+  getUser,
+}
+
+export default userRepository
