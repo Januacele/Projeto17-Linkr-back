@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { validateToken } from '../middlewares/validateToken.js';
-import { schemaValidator } from '../middlewares/schemaValidator.js';
+import { validateToken } from '../../middlewares/validateToken.js';
+import { schemaValidator } from '../../middlewares/schemaValidator.js';
 import { getUsersByNameSchema } from '../schemas/userSchemas.js';
 import { getUsersByNameFollowersFirst, getUser} from '../controllers/usersController.js';
 
