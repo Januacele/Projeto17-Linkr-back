@@ -1,4 +1,4 @@
-import sessionRepository from '../repositories/sessionsRepository.js';
+import sessionsRepository from '../repositories/sessionsRepository.js';
 import usersRepository from '../repositories/usersRepository.js';
 
 export async function validateToken(req, res, next) {
@@ -9,7 +9,7 @@ export async function validateToken(req, res, next) {
     }
   
     try {
-      const { rows:sessions } = await sessionRepository.getSessionByToken(token);
+      const { rows:sessions } = await sessionsRepository.getSessionByToken(token);
       const [session] = sessions;
   
       if (!session) {

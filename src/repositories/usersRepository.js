@@ -1,12 +1,11 @@
-import res from 'express/lib/response';
 import db from '../config/db.js';
 
 
-export async function getUserById(id) {
-    return db.query(`SELECT * FROM users WHERE id = $1 `, [id]);
+async function getUserById(userId) {
+    return db.query(`SELECT * FROM users WHERE id = $1 `, [userId]);
   }
 
-export async function getUserByName(){
+async function getUserByName(){
   const { searchString } = req.body;
   return db.query(`
     SELECT * FROM (
@@ -21,7 +20,7 @@ export async function getUserByName(){
     );
 }
 
-export async function getUser(){
+async function getUser(){
   const {authorization} = req.headers
   const token = authorization?.replace("Bearer", "").trim()
 
@@ -31,3 +30,11 @@ export async function getUser(){
   JOIN sessions ON sessions.token = $1
   WHERE users.id = sessions."userId";`, [token]);
 }
+
+const usersRepository = {
+  getUserById,
+  getUserByName,
+  getUser
+}
+
+export default usersRepository;
