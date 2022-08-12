@@ -1,0 +1,60 @@
+# Gitflow
+
+```jsx
+- git flow init
+```
+# Develop
+```jsx
+- git flow feature start "nome da feature sem parenteses"
+
+```
+
+# Feature
+
+```jsx
+
+- git add .
+- git commit
+- git flow feature publish/finish "nome da feature sem parenteses"
+
+```
+
+# Develop atualizada
+
+
+```jsx
+-  git push --set-upstream origin develop - push davelop pro GH
+-  git push --all = envia todas as branchs juntas pro GH
+-  git flow release start "numero da versão da release sem parenteses"
+obs: sobe pra release
+```
+
+# Release
+
+```jsx
+- realizar todos os testes
+- git flow release publish/finish "nome da versão da release sem parenteses"
+
+obs: atualiza tanto a main como a develop
+```
+
+# Main
+
+```jsx
+- git flow hotfix start "nome da versão hotflix sem parenteses"
+- git add .
+- git commit
+- git flow hotfix publish/finish "nome da versão da hotflix sem parenteses"
+obs: atualiza a produção
+```
+
+# Outros
+
+```jsx
+- git checkout
+- git tag
+- git pull
+- git branch
+- git checkout release/versão
+```
+
