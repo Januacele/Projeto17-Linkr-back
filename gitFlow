@@ -23,7 +23,9 @@
 
 
 ```jsx
-- git flow release start "numero da versão da release sem parenteses"
+-  git push --set-upstream origin develop - push davelop pro GH
+-  git push --all = envia todas as branchs juntas pro GH
+-  git flow release start "numero da versão da release sem parenteses"
 obs: sobe pra release
 ```
 
