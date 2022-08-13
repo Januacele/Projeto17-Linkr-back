@@ -45,6 +45,7 @@ CREATE TABLE "PostsHashtags"
 (
     "id" SERIAL NOT NULL PRIMARY KEY,
     "post_id" INTEGER NOT NULL REFERENCES "posts"("id"),
+    "hashtagId" INTEGER NOT NULL REFERENCES "hashtags"("id"),
     "created_at" TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW()
 );
 
