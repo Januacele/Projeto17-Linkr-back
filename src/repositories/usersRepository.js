@@ -1,8 +1,8 @@
 import db from '../config/db.js';
 
 
-async function getUserById(userId) {
-    return db.query(`SELECT * FROM users WHERE id = $1 `, [userId]);
+async function getUserById(user_id) {
+    return db.query(`SELECT * FROM users WHERE id = $1 `, [user_id]);
   }
 
 async function getUser(){
