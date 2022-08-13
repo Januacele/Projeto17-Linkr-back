@@ -9,5 +9,4 @@ const timelineRouter = Router();
 timelineRouter.get("/timeline", tokenValidation, validateTimeline, getTimelineController);
 
 
-
 export default timelineRouter;
