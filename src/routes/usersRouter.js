@@ -7,6 +7,6 @@ import { getUsersByNameFollowersFirst, getUser} from '../controllers/usersContro
 const usersRouter = Router ();
 
 usersRouter.post('/users', tokenValidation, validateSchema(getUsersByNameSchema), getUsersByNameFollowersFirst);
-usersRouter.get('/user/:userId', getUser);
+usersRouter.get('/user', getUser);
 
 export default usersRouter;

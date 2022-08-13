@@ -28,3 +28,37 @@ export async function editPostValidation(req, res, next){
     }
     next()
 }
+
+
+export async function userPageValidation(req, res, next){
+    try{
+        const userData = (await db.query(`SELECT users.id, users.username, users.profile_image
+                                                FROM users
+                                                WHERE users.id = $1`, [parseInt(req.params.id)])).rows
+
+        if (userData.length === 0)
+            return res.status(404).send('User not found');
+        
+        const postsData = await db.query(`SELECT posts.*, COUNT(comments.posts_id) as "countComments"
+                                                FROM posts 
+                                                LEFT JOIN comments ON comments.post_id=posts.id
+                                                WHERE posts.user_id=$1
+                                                GROUP BY posts, posts.id`, [parseInt(req.params.id)])
+        const posts = postsData.rows
+
+        const repostsData = await db.query(`SELECT reposts.* FROM reposts WHERE reposts.user_id=$1`, [parseInt(req.params.id)])
+        const reposts = repostsData.rows
+
+        const timelineList = [...posts, ...reposts]
+        const additionalReturn = { user: userData[0] }
+        console.log(additionalReturn)
+        res.locals = {
+            timelineList,
+            additionalReturn
+        }
+    }catch(error){
+        console.log(error)
+        return res.status(500).json({message: 'Erro ao acessar o banco de dados.'})
+    }
+    next()
+}
