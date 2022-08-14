@@ -1,3 +1,4 @@
+
 import db from '../config/db.js';
 
 
@@ -16,9 +17,9 @@ async function getUser(){
   WHERE users.id = sessions."userId";`, [token]);
 }
 
-const usersRepository = {
+export const userRepository = {
   getUserById,
-  getUser
+  getUser,
 }
 
-export default usersRepository;
+export default userRepository
