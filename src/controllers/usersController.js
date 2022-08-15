@@ -23,11 +23,18 @@ export const getUsersByNameFollowersFirst = async (req, res) => {
 }
 
 export const getUser = async (req, res) => {
-    const { user_id } = req.params
+    const { token } = res.locals
     try {
+        const query = `
+            SELECT * FROM sessions WHERE token = $1
+        `;
+        const queryToken = [token];
+        const resultToken = await db.query(query, queryToken);
+        console.log(resultToken.rows[0].user_id);
+        let user_id = resultToken.rows[0].user_id;
         const result = await usersRepository.getUserById(user_id);
         const user = result.rows[0]
-        return res.status(200).send(user)
+        return res.status(200).send(user);
 
     } catch(error) { 
         return res.status(500).send(error) 

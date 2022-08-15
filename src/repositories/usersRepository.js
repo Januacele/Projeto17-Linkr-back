@@ -4,7 +4,7 @@ import db from '../config/db.js';
 
 async function getUserById(user_id) {
     return db.query(`SELECT * FROM users WHERE id = $1 `, [user_id]);
-  }
+}
 
 async function getUser(){
   const {authorization} = req.headers
