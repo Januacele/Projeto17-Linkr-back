@@ -8,6 +8,7 @@ import { postSchema, editPostSchema } from "../schemas/postSchema.js"
 const postsRouter = Router()
 
 postsRouter.post("/posts", tokenValidation, validateSchema(postSchema), savePost)
+postsRouter.get("/posts", tokenValidation, getPosts);
 postsRouter.put('/editpost', editPostValidation, validateSchema(editPostSchema), editPostController)
 postsRouter.delete('/deletepost/:id', deletePostValidation, deletePostController)
 postsRouter.get("/posts", tokenValidation, getPosts);

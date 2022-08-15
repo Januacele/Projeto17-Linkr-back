@@ -31,8 +31,8 @@ export const getUser = async (req, res) => {
         console.log(result1.rows[0].user_id)
         let id = result1.rows[0].user_id
         const result = await usersRepository.getUserById(id);
-        const user = result.rows[0]
-        return res.status(200).send(user)
+       
+        return res.status(200).send(result);
 
     } catch(error) { 
         return res.status(500).send(error) 
