@@ -3,27 +3,15 @@ import dotenv from "dotenv"
 dotenv.config()
 
 const { Pool } = pg;
-// const db = new Pool({
-//   host: process.env.DB_HOST,
-//   port: 5432,
-//   user: process.env.DB_USER,
-//   password: process.env.DB_PASSWORD,
-//   database: process.env.DB_DATABASE
-// });
 
-const user = process.env.USUARIO;
-const password = process.env.SENHA;
-const host = process.env.HOST;
-const port = process.env.PORTPG;
-const database = process.env.DATABASE_URL;
+const databaseConfig = {
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+      rejectUnauthorized: false
+  }
+}
 
-const db = new Pool({
-  user,
-  password,
-  host,
-  port,
-  database
-});
+const connection = new Pool(databaseConfig);
 
 
 export default db;
