@@ -1,10 +1,11 @@
 import bcrypt from "bcrypt"
+import db from "../config/db.js"
 
 import authRepository from "../repositories/authRepository.js"
 
 export async function signupMiddleware(req, res, next) {
+  console.log("teste fornt mid")
   const { email, username } = req.body
-
   try {
     const { rows: emails } = await authRepository.getEmail(email, username)
     const [emailConflict] = emails
@@ -13,8 +14,9 @@ export async function signupMiddleware(req, res, next) {
     }
     next()
   } catch (error) {
-    
-  
+    console.log("mid 2")
+
+
     return res.status(500).send(error.message)
   }
 }

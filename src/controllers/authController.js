@@ -6,16 +6,16 @@ dotenv.config()
 import authRepository from "../repositories/authRepository.js"
 
 export async function postUser(req, res) {
-  const { username, email, password, profileImage } = req.body
+ 
+  const { username, email, password, profile_image } = req.body
+
   const hashedPassword = bcrypt.hashSync(password, 10)
-  
-  
   try {
     await authRepository.insertUserDb(
       username,
       email,
       hashedPassword,
-      profileImage,
+      profile_image,
     )
     res.sendStatus(201)
   } catch (error) {
