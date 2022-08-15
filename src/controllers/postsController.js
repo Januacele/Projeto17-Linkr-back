@@ -186,3 +186,24 @@ export const deletePostController = async (req, res) => {
         return  res.status(500).send(error.data)
     }
 }
+
+
+export async function getPosts(req, res) {
+  try {
+    const query = `
+        SELECT posts.*, users.username AS username, users.profile_image AS picture
+        FROM posts 
+        JOIN users ON users.id = posts.user_id
+        ORDER BY posts.id DESC
+    `;
+    const allPosts = await db.query(query);
+    if (allPosts.rowCount === 0) {
+      res.sendStatus(204);
+      return;
+    }
+    res.status(200).send(allPosts.rows);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+}
