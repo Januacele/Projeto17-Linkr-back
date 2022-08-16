@@ -73,8 +73,8 @@ export async function savePost(req, res) {
             const metadata = await urlMetadata(shared_url)
   
             const {
-              title: shared_url,
-              description: message,
+              title: message,
+              description: shared_url,
             } = metadata;
             
             const result = await postsRepository.createPost(

@@ -3,7 +3,7 @@ import db from '../config/db.js';
 
 
 async function getUserById(user_id) {
-    return db.query(`SELECT * FROM users WHERE id = $1 `, [user_id]);
+    return db.query(`SELECT * FROM users WHERE id = $1 `, [parseInt(id)]);
 }
 
 async function getUser(){
@@ -17,9 +17,13 @@ async function getUser(){
   WHERE users.id = sessions."userId";`, [token]);
 }
 
+
+
 export const userRepository = {
   getUserById,
   getUser,
 }
+
+
 
 export default userRepository

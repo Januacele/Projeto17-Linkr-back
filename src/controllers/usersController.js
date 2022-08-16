@@ -38,3 +38,9 @@ export const getUser = async (req, res) => {
         return res.status(500).send(error) 
     }
 }
+
+export async function userByToken(req, res) {
+    const { user } = res.locals;
+    res.status(200).send(res.locals);
+  }
+  
