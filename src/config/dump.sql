@@ -21,7 +21,7 @@ CREATE TABLE "posts"
 (
     "id" SERIAL NOT NULL PRIMARY KEY,
     "user_id" INTEGER NOT NULL REFERENCES "users"("id"),
-    "message" TEXT,
+    "message" TEXT DEFAULT ' ',
     "shared_url" TEXT NOT NULL,
     "created_at" TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW()
 );

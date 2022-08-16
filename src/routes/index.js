@@ -3,8 +3,9 @@ import authRouter from "./authRouter.js"
 import postsRouter from "./postsRouter.js"
 import hashtagRouter from "./hashtagRouter.js"
 import timelineRouter from './timelineRouter.js'
-import usersRouter from '../routes/usersRouter.js'
-import postUserRouter from '../routes/postUserRouter.js'
+import usersRouter from './usersRouter.js'
+import postUserRouter from './postUserRouter.js'
+import likePostRouter from './likePostRouter.js'
 
 const router = Router()
 
@@ -14,5 +15,6 @@ router.use(hashtagRouter)
 router.use(timelineRouter)
 router.use(usersRouter)
 router.use(postUserRouter)
+router.use(likePostRouter)
 
 export default router
