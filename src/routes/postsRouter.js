@@ -11,6 +11,6 @@ postsRouter.post("/posts", tokenValidation, validateSchema(postSchema), savePost
 postsRouter.get("/posts", tokenValidation, getPosts);
 postsRouter.put('/editpost', editPostValidation, validateSchema(editPostSchema), editPostController)
 postsRouter.delete('/deletepost/:id', deletePostValidation, deletePostController)
-
+postsRouter.get("/posts", tokenValidation, getPosts);
 
 export default postsRouter
