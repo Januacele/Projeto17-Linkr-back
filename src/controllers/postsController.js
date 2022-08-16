@@ -150,6 +150,7 @@ export async function getPosts(req, res) {
   }
 }
 
+
 export const editPostController = async (req, res) => {
   const {id, message, user_id} = res.locals.editPostData
 
