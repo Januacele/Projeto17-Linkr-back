@@ -79,12 +79,23 @@ async function createRelationHashtagPost(postId, hashtagId) {
   return db.query(queryText)
 }
 
+async function filterPostsByUser(id) {
+  const query = `
+        SELECT posts.*, users.username AS username, users.profile_image AS picture
+        FROM posts 
+        JOIN users ON users.id = posts.user_id
+        WHERE users.id = $1
+        ORDER BY posts.id DESC
+    `;
+  return db.query(query, [id]);
+}
 
 const postsRepository = {
   createPost,
   getLastPost,
   getAllHashtags,
   createHashtags,
-  createRelationHashtagPost
+  createRelationHashtagPost,
+  filterPostsByUser
 }
 export default postsRepository
