@@ -1,7 +1,7 @@
 import db from "../config/db.js"
 
 async function insertUserDb(username, email, hashedPassword, profile_image) {
-
+console.log("repo auth")
   return db.query(
     `INSERT INTO users (username, email, password, profile_image)
     VALUES ($1, $2, $3, $4)`,
