@@ -24,13 +24,13 @@ CREATE TABLE "posts"
     "message" TEXT DEFAULT ' ',
     "shared_url" TEXT NOT NULL,
     "created_at" TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
-    "title_link" TEXT,
-    "image_link" TEXT,
-    "description_link" TEXT,
+    "title_link" TEXT NOT NULL,
+    "image_link" TEXT NOT NULL,
+    "description_link" TEXT NOT NULL,
     "updated_at" TIMESTAMP WITHOUT TIME ZONE
 );
 
-CREATE TABLE "postsDeleted"
+CREATE TABLE "postsdeleted"
 (
     "id" SERIAL NOT NULL PRIMARY KEY,
     "user_id" INTEGER NOT NULL REFERENCES "users"("id"),
