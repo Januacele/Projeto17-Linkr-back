@@ -1,4 +1,5 @@
 import usersRepository from '../repositories/usersRepository.js';
+import postsRepository from '../repositories/postsRepository.js';
 import db from '../config/db.js';
 
 export const getUsersByNameFollowersFirst = async (req, res) => {
@@ -38,3 +39,47 @@ export const getUser = async (req, res) => {
         return res.status(500).send(error) 
     }
 }
+
+export async function userByToken(req, res) {
+    const { user } = res.locals;
+    res.status(200).send(res.locals);
+}
+  
+
+export async function getPostsByUser(req, res) {
+    const { id } = req.params;
+  
+    try {
+      const userPosts = await postsRepository.filterPostsByUser(id);
+  
+      const limit = 20;
+      if (userPosts.rowCount === 0) {
+        res.sendStatus(204);
+        return;
+      } else if (userPosts.rowCount <= limit) {
+        res.status(200).send(userPosts.rows);
+        return;
+      }
+
+      const start = 0;
+      const end = limit;
+  
+      res.status(200).send(userPosts.rows.splice(start, end));
+    } catch (error) {
+      console.log(error.message);
+      res.sendStatus(error.message);
+    }
+  }
+
+
+  export async function getUserById(req, res) {
+    const { id } = req.params;
+    try {
+      const user = await usersRepository.getUserById(id);
+  
+      res.status(200).send(user.rows[0]);
+    } catch (error) {
+      console.log(error);
+      res.sendStatus(500);
+    }
+  }

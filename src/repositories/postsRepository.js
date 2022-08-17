@@ -1,12 +1,19 @@
 import db from "../config/db.js"
 import SqlString from "sqlstring"
 
-async function createPost(user_id, message, shared_url) {
+async function createPost(
+  user_id, 
+  message,
+  shared_url,
+  title_link,
+  image_link,
+  description_link) {
   return db.query(
-    `INSERT INTO posts ("user_id", "message", "shared_url")
-    VALUES ($1, $2, $3)`,
-    [user_id, message, shared_url],
-  )
+    `INSERT INTO posts (user_id, message, shared_url, title_link,
+      image_link, description_link)
+    VALUES ($1, $2, $3, $4, $5, $6)`,
+    [user_id, message, shared_url, title_link, image_link, description_link],
+  );
 }
 
 async function getLastPost(message) {
@@ -79,12 +86,36 @@ async function createRelationHashtagPost(postId, hashtagId) {
   return db.query(queryText)
 }
 
+async function filterPostsByUser(id) {
+  const query = `
+        SELECT posts.*, users.username AS username, users.profile_image AS picture
+        FROM posts 
+        JOIN users ON users.id = posts.user_id
+        WHERE users.id = $1
+        ORDER BY posts.id DESC
+    `;
+  return db.query(query, [id]);
+}
+
+async function findPost(id) {
+  return db.query(`SELECT * FROM posts WHERE id=$1`, [id]);
+}
+
+async function updateDescription(id, message) {
+  return db.query(`UPDATE posts SET message=$1 WHERE id=$2`, [
+    message,
+    id,
+  ]);
+}
 
 const postsRepository = {
   createPost,
   getLastPost,
   getAllHashtags,
   createHashtags,
-  createRelationHashtagPost
+  createRelationHashtagPost,
+  filterPostsByUser,
+  findPost,
+  updateDescription
 }
 export default postsRepository

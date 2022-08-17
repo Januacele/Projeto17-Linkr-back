@@ -48,11 +48,14 @@ export async function savePost(req, res) {
         console.log("4")
         console.log(user_id,shared_url,message)
        
-        const result = await  db.query(
-          `INSERT INTO posts ("user_id", "message", "shared_url")
-          VALUES ($1, $2, $3)`,
-          [user_id, message, shared_url],
-        )
+        const result = await postsRepository.createPost(
+          user_id,
+          message,
+          shared_url,
+          title_link,
+          image_link,
+          description_link
+        );
   
         const lastPost = await postsRepository.getLastPost(message)
         const lastPostInfo = lastPost.rows[0]
@@ -71,16 +74,19 @@ export async function savePost(req, res) {
         if (result.rowCount === 1) {
           try {
             const metadata = await urlMetadata(shared_url)
-  
             const {
-              title: shared_url,
-              description: message,
+              title: title_link,
+              image: image_link,
+              message: description_link,
             } = metadata;
             
             const result = await postsRepository.createPost(
               user_id,
+              message,
               shared_url,
-              message
+              title_link,
+              image_link,
+              description_link
             );
             const postId = result.rows[0].id;
             res.locals.postId = postId;
@@ -141,7 +147,7 @@ const findUniqueHashtags = message => {
 export async function getPosts(req, res) {
   try {
     const query = `
-        SELECT posts.*, users.username AS username, users.profile_image AS picture
+        SELECT posts.*, users.username AS username, users.profile_image AS profile_image
         FROM posts 
         JOIN users ON users.id = posts.user_id
         ORDER BY posts.id DESC
@@ -214,4 +220,23 @@ export const deletePostController = async (req, res) => {
         console.log(error)
         return  res.status(500).send(error.data)
     }
+}
+
+
+export async function editPost(req, res) {
+  try {
+    const { id } = req.params;
+    const { message } = req.body;
+
+    const post = await postsRepository.findPost(id);
+    if (post.rowCount === 0) {
+      return res.sendStatus(404);
+    }
+
+    await postsRepository.updateDescription(id, message);
+    return res.sendStatus(204);
+  } catch (error) {
+    console.log(error.message);
+    return res.sendStatus(500);
+  }
 }
