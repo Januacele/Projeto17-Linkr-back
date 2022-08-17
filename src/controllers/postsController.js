@@ -108,8 +108,6 @@ export async function savePost(req, res) {
 
   }
 }
-
-
 const findUniqueHashtags = message => {
   let hashtags = [];
   let newHashtag = [];
@@ -159,6 +157,38 @@ export async function getPosts(req, res) {
   }
 }
 
+export async function getPostsByHashtag(req, res) {
+  try {
+    let hashtag = req.params.name
+    console.log(hashtag)
+    const allPosts = await db.query(`SELECT 
+    posts.id
+    , posts.message
+    , posts.shared_url as "sharedUrl"
+    , posts.created_at as "createdAt"
+    , posts.user_id as "userId"
+    , users.username
+    , users.profile_image as "profileImage"
+    from posts
+    JOIN users on users.id = posts.user_id
+    JOIN postshashtags ph ON ph.post_id = posts.id
+    JOIN hashtags ON hashtags.id=ph.hashtag_id
+    WHERE hashtags.name=$1
+    GROUP BY posts.id, users.id
+    ORDER BY posts.created_at DESC
+    LIMIT 20`,
+    [hashtag]);
+
+    if (allPosts.rowCount === 0) {
+      res.send(allPosts.rows).status(201)
+      return;
+    }
+    res.status(200).send(allPosts.rows);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+}
 
 export const editPostController = async (req, res) => {
   const {id, message, user_id} = res.locals.editPostData

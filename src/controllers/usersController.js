@@ -33,7 +33,7 @@ export const getUser = async (req, res) => {
         let id = result1.rows[0].user_id
         const result = await usersRepository.getUserById(id);
        
-        return res.status(200).send(result);
+        return res.status(200).send(result.rows);
 
     } catch(error) { 
         return res.status(500).send(error) 

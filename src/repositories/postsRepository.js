@@ -79,7 +79,7 @@ async function createHashtags(hashtags) {
 
 async function createRelationHashtagPost(postId, hashtagId) {
   const queryText = `INSERT INTO 
-  posts_hashtags (post_id, hashtag_id) 
+  PostsHashtags (post_id, hashtag_id) 
   VALUES (${postId}, ${hashtagId})
   RETURNING id`
 
