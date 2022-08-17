@@ -43,60 +43,55 @@ export async function savePost(req, res) {
         )
         allHashtagsId = [...alreadyCreatedHashtags, ...createdResult.rows]
       }
-     
-      try {
+     //AQUI ACABAM AS #
+
+      try { //ESSE TRY ESTA REPETIDO
         console.log("4")
         console.log(user_id,shared_url,message)
        
-        const result = await postsRepository.createPost(
-          user_id,
-          message,
-          shared_url,
-          title_link,
-          image_link,
-          description_link
-        );
-  
-        const lastPost = await postsRepository.getLastPost(message)
-        const lastPostInfo = lastPost.rows[0]
-  
-        allHashtagsId.forEach(async (hashtagId) => {
-          const createRelationHashtagPost =
-            await postsRepository.createRelationHashtagPost(
-              lastPostInfo.id,
-              hashtagId.id,
-            )
-        })
-  
-        const createdPost = {
-          ...{ ...lastPost.rows[0] },
+        try {
+          const metadata = await urlMetadata(shared_url)
+          const {
+            title: title_link,
+            image: image_link,
+            message: description_link,
+          } = metadata;
+          
+          const result = await postsRepository.createPost(
+            user_id,
+            message,
+            shared_url,
+            title_link,
+            image_link,
+            description_link
+          );
+
+          let postId = 0;
+          res.locals.postId = postId;
+          
+          const lastPost = await postsRepository.getLastPost(message)
+          const lastPostInfo = lastPost.rows[0]
+         //DEPOIS DE PUBLICAR O POST PRECISO CRIAR A RELAÇÃO POST #
+          allHashtagsId.forEach(async (hashtagId) => {
+            const createRelationHashtagPost =
+              await postsRepository.createRelationHashtagPost(
+                lastPostInfo.id,
+                hashtagId.id,
+              )
+          })
+    
+          
+                const createdPost = {
+                  ...{ ...lastPost.rows[0] },
+                }
+          res.status(201).send({ ...createdPost })
+        } catch (error) {
+          console.log("Error:", error)
+          res.status(400).send({ ...createdPost })
         }
-        if (result.rowCount === 1) {
-          try {
-            const metadata = await urlMetadata(shared_url)
-            const {
-              title: title_link,
-              image: image_link,
-              message: description_link,
-            } = metadata;
-            
-            const result = await postsRepository.createPost(
-              user_id,
-              message,
-              shared_url,
-              title_link,
-              image_link,
-              description_link
-            );
-            const postId = result.rows[0].id;
-            res.locals.postId = postId;
-            
-            return res.status(201).send({ ...createdPost })
-          } catch (error) {
-            console.log("Error:", error)
-            return res.status(201).send({ ...createdPost })
-          }
-        } else return res.sendStatus(400)
+     
+
+
     } catch (error) {
       console.log(error);
       return res.sendStatus(500);

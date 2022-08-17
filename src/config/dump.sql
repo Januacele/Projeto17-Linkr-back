@@ -45,11 +45,11 @@ CREATE TABLE "hashtags"
     "created_at" TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW()
 );
 
-CREATE TABLE "PostsHashtags"
+CREATE TABLE "postshashtags"
 (
     "id" SERIAL NOT NULL PRIMARY KEY,
     "post_id" INTEGER NOT NULL REFERENCES "posts"("id"),
-    "hashtagId" INTEGER NOT NULL REFERENCES "hashtags"("id"),
+    "hashtag_id" INTEGER NOT NULL REFERENCES "hashtags"("id"),
     "created_at" TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW()
 );
 
