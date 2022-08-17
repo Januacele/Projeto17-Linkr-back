@@ -17,11 +17,18 @@ async function getUser(){
   WHERE users.id = sessions."userId";`, [token]);
 }
 
+async function searchUsers(username) {
+  return db.query(
+    `SELECT users.id, users.username, users.profile_image FROM users WHERE username LIKE '%' || $1 || '%'`,
+    [username]
+  );
+}
+
 
 export const userRepository = {
   getUserById,
   getUser,
-
+  searchUsers
 }
 
 

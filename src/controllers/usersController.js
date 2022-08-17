@@ -72,7 +72,7 @@ export async function getPostsByUser(req, res) {
   }
 
 
-  export async function getUserById(req, res) {
+export async function getUserById(req, res) {
     const { id } = req.params;
     try {
       const user = await usersRepository.getUserById(id);
@@ -81,5 +81,23 @@ export async function getPostsByUser(req, res) {
     } catch (error) {
       console.log(error);
       res.sendStatus(500);
+    }
+  }
+
+
+export async function getSearchedUser(req, res) {
+    try {
+      const user = req.query.user;
+      const { user: loggedUser } = res.locals;
+      const limit = 2;
+      if (user.length >= 3) {
+        const queryUsers = await usersRepository.searchUsers(loggedUser.id, user);
+        return res.status(200).send(queryUsers.rows.splice(0, limit));
+      } else {
+        return res.sendStatus(200);
+      }
+    } catch (error) {
+      console.log(error);
+      return res.sendStatus(500);
     }
   }
