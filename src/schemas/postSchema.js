@@ -5,8 +5,3 @@ export const postSchema = Joi.object({
   message: Joi.string()
 })
 
-export const editPostSchema = Joi.object({
-  id: Joi.number().required(),
-  user_id: Joi.number().required(),
-  message: Joi.string().required()  
-})

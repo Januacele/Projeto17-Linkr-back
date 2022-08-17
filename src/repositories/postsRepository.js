@@ -1,12 +1,19 @@
 import db from "../config/db.js"
 import SqlString from "sqlstring"
 
-async function createPost(user_id, message, shared_url) {
+async function createPost(
+  user_id, 
+  message,
+  shared_url,
+  title_link,
+  image_link,
+  description_link) {
   return db.query(
-    `INSERT INTO posts ("user_id", "message", "shared_url")
-    VALUES ($1, $2, $3)`,
-    [user_id, message, shared_url],
-  )
+    `INSERT INTO posts (user_id, message, shared_url, title_link,
+      image_link, description_link)
+    VALUES ($1, $2, $3, $4, $5, $6)`,
+    [user_id, message, shared_url, title_link, image_link, description_link],
+  );
 }
 
 async function getLastPost(message) {
@@ -90,12 +97,25 @@ async function filterPostsByUser(id) {
   return db.query(query, [id]);
 }
 
+async function findPost(id) {
+  return db.query(`SELECT * FROM posts WHERE id=$1`, [id]);
+}
+
+async function updateDescription(id, message) {
+  return db.query(`UPDATE posts SET message=$1 WHERE id=$2`, [
+    message,
+    id,
+  ]);
+}
+
 const postsRepository = {
   createPost,
   getLastPost,
   getAllHashtags,
   createHashtags,
   createRelationHashtagPost,
-  filterPostsByUser
+  filterPostsByUser,
+  findPost,
+  updateDescription
 }
 export default postsRepository

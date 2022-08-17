@@ -23,7 +23,11 @@ CREATE TABLE "posts"
     "user_id" INTEGER NOT NULL REFERENCES "users"("id"),
     "message" TEXT DEFAULT ' ',
     "shared_url" TEXT NOT NULL,
-    "created_at" TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW()
+    "created_at" TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
+    "title_link" TEXT,
+    "image_link" TEXT,
+    "description_link" TEXT,
+    "updated_at" TIMESTAMP WITHOUT TIME ZONE
 );
 
 CREATE TABLE "postsDeleted"
