@@ -1,3 +1,4 @@
+
 import express, { json } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -13,3 +14,4 @@ app.use(json());
 app.use(router);
 
 app.listen(process.env.PORT, () => console.log(`Servidor rodando na porta ${process.env.PORT}`));
+

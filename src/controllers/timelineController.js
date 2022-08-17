@@ -9,17 +9,17 @@ export const getTimelineController = async (req, res) => {
         
         for(let post of timelineList){
             let postInfo = {}
-            if(post.postsId){   
+            if(post.posts_id){   
                 const postData = await db.query(`SELECT posts.*, users.username, users.profile_image,
                                                     COUNT(comments.post_id) as "countComments"
                                                     FROM posts
                                                     JOIN users ON posts.user_id = users.id
                                                     LEFT JOIN comments ON comments.post_id = posts.id
                                                     WHERE posts.id=$1
-                                                    GROUP BY posts.id, users.username, users.profile_image`, [post.postsId])
+                                                    GROUP BY posts.id, users.username, users.profile_image`, [post.posts_id])
                 const postRow = postData.rows[0]
-                const whoRepostedData = await db.query(`SELECT * FROM users WHERE id = $1;`, [post.userId])
-                const repostsData = await db.query(`SELECT * FROM reposts WHERE post_id" = $1;`, [post.postsId])
+                const whoRepostedData = await db.query(`SELECT * FROM users WHERE id = $1;`, [post.user_id])
+                const repostsData = await db.query(`SELECT * FROM reposts WHERE post_id" = $1;`, [post.posts_id])
 
                 postInfo = {
                     isRepost: true,
@@ -39,7 +39,7 @@ export const getTimelineController = async (req, res) => {
                 }
             }else{
                 const repostsData = await db.query(`SELECT * FROM reposts WHERE post_id = $1;`, [post.id])
-                const postUserData = await db.query(`SELECT * FROM users WHERE id = $1;`, [post.userId])
+                const postUserData = await db.query(`SELECT * FROM users WHERE id = $1;`, [post.user_id])
                 const postUser = postUserData.rows[0]
                 postInfo = {
                     ...post,

@@ -1,5 +1,5 @@
-import sessionsRepository from '../repositories/sessionsRepository.js';
-import usersRepository from '../repositories/usersRepository.js';
+import sessionRepository from '../repositories/sessionsRepository.js';
+
 
 export async function validateToken(req, res, next) {
     const authorization = req.headers.authorization;
@@ -16,13 +16,7 @@ export async function validateToken(req, res, next) {
         return res.status(401).send("Session not found.");
       }
   
-      const { rows: users } = await usersRepository.getUserById(session.user_id);
-      const [user] = users;
-      if (!user) {
-        return res.status(401).send("User not found."); 
-      }
     
-      res.locals.user = user;
       next();
     } catch (error) {
       console.log(error);

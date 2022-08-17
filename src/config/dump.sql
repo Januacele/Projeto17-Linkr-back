@@ -21,9 +21,13 @@ CREATE TABLE "posts"
 (
     "id" SERIAL NOT NULL PRIMARY KEY,
     "user_id" INTEGER NOT NULL REFERENCES "users"("id"),
-    "message" TEXT,
+    "message" TEXT DEFAULT ' ',
     "shared_url" TEXT NOT NULL,
-    "created_at" TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW()
+    "created_at" TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
+    "title_link" TEXT,
+    "image_link" TEXT,
+    "description_link" TEXT,
+    "updated_at" TIMESTAMP WITHOUT TIME ZONE
 );
 
 CREATE TABLE "postsDeleted"
@@ -41,13 +45,13 @@ CREATE TABLE "hashtags"
     "created_at" TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW()
 );
 
-CREATE TABLE "PostsHashtags"
+CREATE TABLE "postshashtags"
 (
     "id" SERIAL NOT NULL PRIMARY KEY,
     "post_id" INTEGER NOT NULL REFERENCES "posts"("id"),
+    "hashtag_id" INTEGER NOT NULL REFERENCES "hashtags"("id"),
     "created_at" TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW()
 );
-
 CREATE TABLE "reposts"
 (
     "id" SERIAL NOT NULL PRIMARY KEY,
