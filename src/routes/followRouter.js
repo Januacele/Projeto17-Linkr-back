@@ -8,3 +8,6 @@ import {tokenValidation} from "../middlewares/tokenValidation.js";
 const followRouter = Router();
 
 followRouter.post("/follow/:id", tokenValidation, followUser);
+
+
+export default followRouter;
