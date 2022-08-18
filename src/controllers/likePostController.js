@@ -39,3 +39,32 @@ export async function getLikes(req, res) {
       return res.status(500).send(error.data)
   }
 }
+
+export async function checkPostLikes(req, res) {
+  const { post_id } = req.body;
+  const user_id = res.locals.userId;
+  const checkForLikes = await postsRepository.checkLike(user_id, post_id);
+
+  if (checkForLikes.rowCount === 0) {
+    return res.status(200).send(false);
+  } else {
+    return res.status(200).send(true);
+  }
+}
+
+export async function countLikes(req, res) {
+  try {
+    const { id } = req.params;
+    const count = await postsRepository.countLikes(id);
+    const users = await postsRepository.lastUserLikes(id, res.locals.userId);
+    return res.status(200).send({
+      count: count.rows[0].count,
+      users: users.rows.map((item) => {
+        return item.username;
+      }),
+    });
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+}

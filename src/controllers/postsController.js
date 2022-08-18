@@ -158,6 +158,34 @@ export async function getPosts(req, res) {
   }
 }
 
+
+export async function getNewPosts(req, res) {
+  let { id } = req.params;
+
+  try {
+    const { user } = res.locals;
+    const response = await postsRepository.getFollowedNewPosts(user.id, id);
+
+    const limit = 20;
+    if (response.rowCount === 0) {
+      res.sendStatus(204);
+      return;
+    } else if (response.rowCount <= limit) {
+      res.status(200).send(response.rows);
+      return;
+    }
+
+    const start = 0;
+    const end = limit;
+
+    res.status(200).send(response.rows.splice(start, end));
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+}
+
+
 export async function getPostsByHashtag(req, res) {
   try {
     let hashtag = req.params.name

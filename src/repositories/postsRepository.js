@@ -31,15 +31,18 @@ async function getLastPost(message) {
     )
   }
   
-  export async function getPostsUsersFollows(user_id){
-    return db.query(`
-  SELECT posts.*, follows.followed_id, follows.follower_id, COUNT(comments.post_id) as "countComments"
-  FROM posts
-  JOIN follows ON follows.followed_id = posts.user_id
-  LEFT JOIN comments ON comments.post_id = posts.id
-  WHERE follows.follower_id"= $1
-  GROUP BY posts, posts.id, follows.follower_id, follows.followed_id`, [user_id]);
-}
+  async function getFollowedNewPosts(idUser, idLastPost) {
+    const query = `
+          SELECT p.*, u.username AS username, u.profile_image AS picture 
+          FROM follows f
+          RIGHT JOIN posts p ON p.user_id = f.following
+          JOIN users u ON u.id = p.user_id
+          WHERE f.user_id = $1 AND p.id > $2
+          ORDER BY p.id DESC
+          LIMIT 20
+      `;
+    return db.query(query, [parseInt(idUser), parseInt(idLastPost)]);
+  }
 
 
 async function repostedUserFollows(user_id){
@@ -116,6 +119,7 @@ const postsRepository = {
   createRelationHashtagPost,
   filterPostsByUser,
   findPost,
-  updateDescription
+  updateDescription,
+  getFollowedNewPosts
 }
 export default postsRepository
