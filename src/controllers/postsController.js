@@ -139,6 +139,7 @@ const findUniqueHashtags = message => {
 
 export async function getPosts(req, res) {
   try {
+    const { user } = res.locals;
     const query = `
         SELECT posts.*, users.username AS username, users.profile_image AS profile_image
         FROM posts 
