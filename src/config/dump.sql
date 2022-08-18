@@ -24,9 +24,9 @@ CREATE TABLE "posts"
     "message" TEXT DEFAULT ' ',
     "shared_url" TEXT NOT NULL,
     "created_at" TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
-    "title_link" TEXT NOT NULL,
-    "image_link" TEXT NOT NULL,
-    "description_link" TEXT NOT NULL,
+    "title_link" TEXT,
+    "image_link" TEXT,
+    "description_link" TEXT,
     "updated_at" TIMESTAMP WITHOUT TIME ZONE
 );
 
