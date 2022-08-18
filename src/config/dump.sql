@@ -80,7 +80,7 @@ CREATE TABLE "likes"
 CREATE TABLE "follows"
 (
     "id" SERIAL NOT NULL PRIMARY KEY,
-    "followed_id" INTEGER NOT NULL REFERENCES "users"("id"),
-    "follower_id" INTEGER NOT NULL REFERENCES "users"("id"),
-    "created_at" TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW() 
+    "user" INTEGER NOT NULL REFERENCES "users"("id"),
+    "following" INTEGER NOT NULL REFERENCES "users"("id"),
+    "customer" TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW() 
 );
