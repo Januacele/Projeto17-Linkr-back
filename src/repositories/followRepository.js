@@ -47,4 +47,3 @@ async function getFollow(followed_id, following_id) {
     getAllFollowedArray
   };
   
-  export default followRepository;
