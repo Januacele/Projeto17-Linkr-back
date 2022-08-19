@@ -27,20 +27,13 @@ async function getFollow(customer, following) {
       [parseInt(customer), parseInt(following)]
     );
   }
-
-  async function getAllFollowedArray(customer) {
-    return db.query(`SELECT ARRAY (SELECT following FROM follows WHERE customer=$1)`, [
-      parseInt(customer)
-    ]);
-  }
   
 
   const followRepository = {
     insertFollow,
     getFollow,
     getAllFollowed,
-    deleteFollow,
-    getAllFollowedArray
+    deleteFollow
   };
   
   export default followRepository;

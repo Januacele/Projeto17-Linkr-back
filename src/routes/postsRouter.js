@@ -15,7 +15,7 @@ const postsRouter = Router()
 postsRouter.post("/posts", tokenValidation, validateSchema(postSchema), savePost)
 postsRouter.get("/posts", tokenValidation, getPosts);
 postsRouter.get("/posts/new/:id", tokenValidation, getNewPosts);
-postsRouter.get("/posthashtags/:name",tokenValidation, userHashtagValidation, getTimelineController);
+postsRouter.get("/posthashtags/:name", getPostsByHashtag);
 postsRouter.put('/editpost/:id', tokenValidation, editPost)
 postsRouter.delete('/deletepost/:id', deletePostValidation, deletePostController)
 postsRouter.post("/posts/comment", tokenValidation, validateSchema(commentSchema), addComment);

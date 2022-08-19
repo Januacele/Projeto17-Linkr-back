@@ -1,6 +1,5 @@
 import db from '../config/db.js';
 import Joi from 'joi';
-import { hash } from 'bcrypt';
 
 // export async function editPostValidation(req, res, next){
 //     const { id, user_id, message } = req.body
@@ -30,61 +29,16 @@ import { hash } from 'bcrypt';
 //     next()
 // }
 
-export async function userHashtagValidation(req, res, next) {
-    const { name } = req.params
-    const { userId } = res.locals
-    console.log("TESTE CHEGADA #POST", name, userId)
-    try {  //Abaixo eu preciso do user id, pegar no token validation
-        const userData = (await db.query(`SELECT users.id, users.username, users.profile_image 
-                                                FROM users
-                                                WHERE users.id = $1`, [parseInt(userId)])).rows
 
-        if (userData.length === 0)
-            return res.status(404).send('User not found');
-        //Organizar essa query pra trazer todos os posts associados a # em questão
-        const postsData = await db.query(`SELECT posts.*
-        , COUNT(comments.post_id) as "countComments"
-        , users.profile_image as "profileImage"
-        from posts
-        LEFT JOIN comments ON comments.post_id=posts.id
-        JOIN users on users.id = posts.user_id
-        JOIN postshashtags ph ON ph.post_id = posts.id
-        JOIN hashtags ON hashtags.id=ph.hashtag_id
-        WHERE hashtags.name=$1
-        GROUP BY posts.id, users.id
-        ORDER BY posts.created_at DESC
-        LIMIT 20`,  [name])
-
-        const posts = postsData.rows
-
-        const repostsData = await db.query(`SELECT reposts.* FROM reposts WHERE reposts.user_id=$1`, [parseInt(userId)])
-        const reposts = repostsData.rows
-
-        const timelineList = [...posts, ...reposts]
-        const additionalReturn = { user: userData[0] }
-        console.log("TIMELINE LIST",timelineList)
-        res.locals = {
-            timelineList,
-            additionalReturn
-        }
-    } catch (error) {
-        console.log(error)
-        return res.status(500).json({ message: 'Erro ao acessar o banco de dados.' })
-    }
-    next()
-}
-
-
-
-export async function userPageValidation(req, res, next) {
-    try {
+export async function userPageValidation(req, res, next){
+    try{
         const userData = (await db.query(`SELECT users.id, users.username, users.profile_image
                                                 FROM users
                                                 WHERE users.id = $1`, [parseInt(req.params.id)])).rows
 
         if (userData.length === 0)
             return res.status(404).send('User not found');
-
+        
         const postsData = await db.query(`SELECT posts.*, COUNT(comments.posts_id) as "countComments"
                                                 FROM posts 
                                                 LEFT JOIN comments ON comments.post_id=posts.id
@@ -102,34 +56,34 @@ export async function userPageValidation(req, res, next) {
             timelineList,
             additionalReturn
         }
-    } catch (error) {
+    }catch(error){
         console.log(error)
-        return res.status(500).json({ message: 'Erro ao acessar o banco de dados.' })
+        return res.status(500).json({message: 'Erro ao acessar o banco de dados.'})
     }
     next()
 }
 
-export async function deletePostValidation(req, res, next) {
+export async function deletePostValidation(req, res, next){
     const { id } = req.params
-    const { authorization } = req.headers
+    const {authorization} = req.headers
     const token = authorization?.replace("Bearer", "").trim()
-
+    
     const deletePostSchema = Joi.object({
-        id: Joi.number().required()
+        id: Joi.number().required() 
     })
-    const { error } = deletePostSchema.validate({ id })
-    if (error) {
-        return res.status(422).json({ message: 'ID invalido Impossivel deletar.' })
+    const {error} = deletePostSchema.validate({id})
+    if(error){
+        return res.status(422).json({message:'ID invalido Impossivel deletar.'})
     }
-    try {
+    try{
         const postData = await db.query(
             `SELECT * FROM posts
              JOIN sessions ON sessions.token = $1
              WHERE posts.user_id = sessions.user_id AND posts.id = $2;`, [token, id])
-        if (postData.rows.length === 0) return res.status(404).json({ message: 'Você não tem permissão para deletar este post.' })
-        res.locals = { id: id }
-    } catch (error) {
-        return res.status(500).json({ message: 'Erro ao acessar o banco de dados.' })
+        if(postData.rows.length===0) return res.status(404).json({message:'Você não tem permissão para deletar este post.'})
+        res.locals = {id: id}
+    }catch(error){
+        return res.status(500).json({message: 'Erro ao acessar o banco de dados.'})
     }
     next()
 }
