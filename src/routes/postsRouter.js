@@ -8,7 +8,7 @@ import { commentSchema } from "../schemas/commentSchema.js";
 import { userHashtagValidation } from '../middlewares/validatePost.js';
 import {getTimelineController} from '../controllers/timelineController.js';
 import { addComment, getComments, countComments } from '../controllers/commentController.js';
-import { sharePost } from '../controllers/shareController.js';
+import { sharePost, countShares } from '../controllers/shareController.js';
 
 const postsRouter = Router()
 
@@ -22,5 +22,6 @@ postsRouter.post("/posts/comment", tokenValidation, validateSchema(commentSchema
 postsRouter.get("/posts/comment/:id", tokenValidation, getComments);
 postsRouter.get("/posts/commentcount/:id", tokenValidation, countComments);
 postsRouter.post("/posts/share", tokenValidation, sharePost);
+postsRouter.get("/posts/sharecount/:id", tokenValidation, countShares);
 
 export default postsRouter

@@ -13,9 +13,16 @@ async function sharePost(post_id, user_id) {
       [post_id, user_id]);
 }
 
+async function countShares(post_id) {
+    return db.query(
+      `SELECT COUNT(*) FROM posts WHERE post_id=$1`,
+      [post_id]);
+  };
+
 const shareRepository = {
     shareExist,
-    sharePost
+    sharePost,
+    countShares
 }
 
 export default shareRepository;
