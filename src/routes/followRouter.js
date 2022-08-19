@@ -10,9 +10,9 @@ import {tokenValidation} from "../middlewares/tokenValidation.js";
 
 const followRouter = Router();
 
-followRouter.post("/follow/:id", tokenValidation, followUser);
-followRouter.delete("/follow/:id", tokenValidation, unfollowUser);
-followRouter.get("/follow/:id", tokenValidation, checkFollow);
-followRouter.get("/follows", tokenValidation, sendAllFollows);
+followRouter.post("/follow/:id", tokenValidation, followUser);// working
+followRouter.delete("/follow/:id", tokenValidation, unfollowUser);// working
+followRouter.get("/follow/:id", tokenValidation, checkFollow);// working
+followRouter.get("/follows", tokenValidation, sendAllFollows);// working
 
 export default followRouter;

@@ -35,9 +35,9 @@ async function getLastPost(message) {
     const query = `
           SELECT p.*, u.username AS username, u.profile_image AS picture 
           FROM follows f
-          RIGHT JOIN posts p ON p.user_id = f.following
+          RIGHT JOIN posts p ON p.user_id = f.follower_id
           JOIN users u ON u.id = p.user_id
-          WHERE f.user_id = $1 AND p.id > $2
+          WHERE f.follower_id = $1 AND p.id > $2
           ORDER BY p.id DESC
           LIMIT 20
       `;

@@ -87,12 +87,11 @@ export async function getUserById(req, res) {
 
 export async function getSearchedUser(req, res) {
     try {
-      const user = req.query.user;
-      const { user: loggedUser } = res.locals;
-      const limit = 2;
-      if (user.length >= 3) {
-        const queryUsers = await usersRepository.searchUsers(loggedUser.id, user);
-        return res.status(200).send(queryUsers.rows.splice(0, limit));
+      const {username} = req.body
+      
+      if (username.length >= 3) {
+        const queryUsers = await usersRepository.searchUsers(username);
+        return res.status(200).send(queryUsers);
       } else {
         return res.sendStatus(200);
       }

@@ -1,14 +1,14 @@
-import commentRepository from "../repositories/commentRepository";
+import commentRepository from "../repositories/commentRepository.js";
 import followRepository from '../repositories/followRepository.js';
 
 export async function addComment(req, res) {
     try {
-      const { id: user_id } = res.locals.user;
+      const { userId } = res.locals;
       const { post_id, message } = req.body;
   
       const newComment = await commentRepository.insertComment(
         post_id,
-        user_id,
+        userId,
         message
       );
       return res.status(200).send(newComment);
@@ -20,16 +20,16 @@ export async function addComment(req, res) {
 
 export async function getComments(req, res) {
     try {
-      const user = res.locals.user;
+      const {userId} = res.locals
       const { id: post_id } = req.params;
       const postComments = await commentRepository.getComments(post_id);
-      const arrayFollowers = await followRepository.getAllFollowedArray(user.id);
+      const arrayFollowers = await followRepository.getAllFollowedArray(userId);
   
       postComments.rows.map((comment) => {
         if (comment.user_id === comment.postAuthor) {
           comment.type = "post's author";
         } else if (arrayFollowers.rows[0].array.includes(comment.customer)) {
-          comment.type = "following";
+          comment.type = "follower_id";
         } else {
           comment.type = "";
         }

@@ -163,8 +163,8 @@ export async function getNewPosts(req, res) {
   let { id } = req.params;
 
   try {
-    const { user } = res.locals;
-    const response = await postsRepository.getFollowedNewPosts(user.id, id);
+    const { userId } = res.locals;
+    const response = await postsRepository.getFollowedNewPosts(userId, id);
 
     const limit = 20;
     if (response.rowCount === 0) {
@@ -266,7 +266,7 @@ export const editPostController = async (req, res) => {
 export const deletePostController = async (req, res) => {
     const { id } = res.locals
     try {
-        await db.query(`DELETE FROM "PostsHashtags" WHERE post_id = $1;`, [id])
+        await db.query(`DELETE FROM "postshashtags" WHERE post_id = $1;`, [id])
         await db.query(`DELETE FROM likes WHERE post_id = $1;`, [id])
         await db.query(`DELETE FROM posts WHERE id = $1;`, [id])
         return res.status(200).json({message:'Post deletado.'})

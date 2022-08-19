@@ -6,7 +6,7 @@ import { getTimelineController } from '../controllers/timelineController.js';
 
 const timelineRouter = Router();
 
-timelineRouter.get("/timeline", tokenValidation, validateTimeline, getTimelineController);
+timelineRouter.get("/timeline", tokenValidation, validateTimeline, getTimelineController); // working
 
 
 export default timelineRouter;

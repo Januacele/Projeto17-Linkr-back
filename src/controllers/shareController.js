@@ -5,19 +5,20 @@ import usersRepository from "../repositories/usersRepository.js";
 export async function sharePost(req, res) {
     try {
       const { post_id } = req.body;
-      const user = res.locals.user;
+      const userId = res.locals.userId;
+      console.log(post_id, userId)
   
       const post = await postsRepository.findPost(post_id);
       if (post.rowCount === 0) {
         return res.sendStatus(404);
       }
   
-      const exist = await shareRepository.shareExist(user.id, post.rows[0].id);
+      const exist = await shareRepository.shareExist(userId, post_id);
       if (exist.rows[0].count === 0) {
         return res.sendStatus(409);
       }
   
-      await shareRepository.sharePost(user.id, post.rows[0]);
+      await shareRepository.sharePost(userId, post_id);
       return res.sendStatus(201);
     } catch (error) {
       console.log(error);

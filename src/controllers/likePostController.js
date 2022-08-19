@@ -28,7 +28,7 @@ export async function unlikePost(req, res) {
 }
 
 export async function getLikes(req, res) {
-  const user_id = res.locals.userId;
+ 
   const { post_id } = req.params;
 
   try {
@@ -43,7 +43,7 @@ export async function getLikes(req, res) {
 export async function checkPostLikes(req, res) {
   const { post_id } = req.body;
   const user_id = res.locals.userId;
-  const checkForLikes = await postsRepository.checkLike(user_id, post_id);
+  const checkForLikes = await likesRepository.checkLike(user_id, post_id);
 
   if (checkForLikes.rowCount === 0) {
     return res.status(200).send(false);
@@ -55,8 +55,8 @@ export async function checkPostLikes(req, res) {
 export async function countLikes(req, res) {
   try {
     const { id } = req.params;
-    const count = await postsRepository.countLikes(id);
-    const users = await postsRepository.lastUserLikes(id, res.locals.userId);
+    const count = await likesRepository.countLikes(id);
+    const users = await likesRepository.lastUserLikes(id, res.locals.userId);
     return res.status(200).send({
       count: count.rows[0].count,
       users: users.rows.map((item) => {

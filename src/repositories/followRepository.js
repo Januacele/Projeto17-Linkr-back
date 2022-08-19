@@ -1,36 +1,40 @@
 import db from "../config/db.js";
 
 
-async function insertFollow(customer, following) {
-    return db.query(`INSERT INTO follows (customer, following) VALUES ($1, $2)`, [
-      parseInt(customer),
-      parseInt(following),
+async function insertFollow(followed_id, following_id) {
+    return db.query(`INSERT INTO follows (followed_id, follower_id) VALUES ($1, $2)`, [
+      parseInt(followed_id),
+      parseInt(following_id),
     ]);
   }
 
-async function getFollow(customer, following) {
+async function getFollow(followed_id, following_id) {
+  console.log(followed_id, following_id)
     return db.query(
-      `SELECT * FROM follows WHERE customer = $1 AND following = $2`,
-      [parseInt(customer), parseInt(following)]
+      `SELECT * FROM follows WHERE "followed_id" = $1 AND "follower_id" = $2`,
+      [
+        parseInt(followed_id),
+        parseInt(following_id),
+      ]
     );
   }
 
-  async function getAllFollowed(customer) {
-    return db.query(`SELECT * FROM follows WHERE "customer"= $1`, [
-      parseInt(customer),
+  async function getAllFollowed(following_id) {
+    return db.query(`SELECT * FROM follows WHERE "follower_id"= $1`, [
+      parseInt(following_id),
     ]);
   }
 
-  async function deleteFollow(customer, following) {
+  async function deleteFollow(followed_id, following_id) {
     return db.query(
-      `DELETE FROM follows WHERE customer = $1 AND following = $2`,
-      [parseInt(customer), parseInt(following)]
+      `DELETE FROM follows WHERE followed_id = $1 AND follower_id = $2`,
+      [parseInt(followed_id), parseInt(following_id)]
     );
   }
 
-  async function getAllFollowedArray(customer) {
-    return db.query(`SELECT ARRAY (SELECT following FROM follows WHERE customer=$1)`, [
-      parseInt(customer)
+  async function getAllFollowedArray(followed_id) {
+    return db.query(`SELECT ARRAY (SELECT follower_id FROM follows WHERE followed_id=$1)`, [
+      parseInt(followed_id)
     ]);
   }
   

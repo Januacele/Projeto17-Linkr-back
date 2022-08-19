@@ -6,7 +6,7 @@ import {getTimelineController} from '../controllers/timelineController.js';
 const postUserRouter = Router()
 
 
-postUserRouter.get('/user/:id', tokenValidation, userPageValidation, getTimelineController);
+postUserRouter.get('/user/:id', tokenValidation, userPageValidation, getTimelineController);// working
 
 
 export default postUserRouter

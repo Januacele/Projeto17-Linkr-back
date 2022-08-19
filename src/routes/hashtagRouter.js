@@ -4,6 +4,6 @@ import { getHashtag } from "../controllers/hashtagController.js"
 
 const hashtagRouter = Router()
 
-hashtagRouter.get("/hashtags", getHashtag)
+hashtagRouter.get("/hashtags", getHashtag)// working
 
 export default hashtagRouter

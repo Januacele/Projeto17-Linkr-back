@@ -4,11 +4,11 @@ import { likePost, unlikePost, getLikes, checkPostLikes, countLikes } from '../c
 
 const likePostRouter = Router()
 
-likePostRouter.post('/likes/:post_id', tokenValidation, likePost);
-likePostRouter.delete('/likes/:post_id', tokenValidation, unlikePost);
-likePostRouter.get('/likes/:post_id', tokenValidation, getLikes);
-likePostRouter.post("/posts/checklike", tokenValidation, checkPostLikes);
-likePostRouter.get("/posts/likecount/:id", tokenValidation, countLikes);
+likePostRouter.post('/likes/:post_id', tokenValidation, likePost);// working
+likePostRouter.delete('/likes/:post_id', tokenValidation, unlikePost);// working
+likePostRouter.get('/likes/:post_id', tokenValidation, getLikes);// working
+likePostRouter.post("/posts/checklike", tokenValidation, checkPostLikes);// working
+likePostRouter.get("/posts/likecount/:id", tokenValidation, countLikes);// working
 
 
 export default likePostRouter

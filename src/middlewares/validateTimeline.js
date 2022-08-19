@@ -5,18 +5,18 @@ import db from "../config/db.js";
 
 export async function validateTimeline(req, res, next){
     try{
-        const {user_id} = res.locals;
+        const {userId} = res.locals;
         const postsData = await db.query(`SELECT posts.*, follows.follower_id, follows.followed_id, COUNT(comments.post_id) as "countComments"
                                                 FROM posts
                                                 JOIN follows ON follows.followed_id = posts.user_id
                                                 LEFT JOIN comments ON comments.post_id = posts.id
                                                 WHERE follows.follower_id= $1
-                                                GROUP BY posts, posts.id, follows.follower_id, follows.followed_id`, [user_id]);
+                                                GROUP BY posts, posts.id, follows.follower_id, follows.followed_id`, [userId]);
         const posts = postsData.rows
 
         const repostsData = await db.query(`SELECT reposts.*, follows.follower_id, follows.followed_id FROM reposts
                                                 JOIN follows ON follows.followed_id = reposts.user_id
-                                                WHERE follows.follower_id=$1`, [user_id]);
+                                                WHERE follows.follower_id=$1`, [userId]);
         const reposts = repostsData.rows
 
         const timelineList = [...posts, ...reposts]

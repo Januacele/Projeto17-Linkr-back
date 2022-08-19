@@ -32,7 +32,7 @@ export async function tokenValidation(req, res, next) {
     res.locals.token = token
     next()
   } catch (error) {
-   
+     
     return res.status(500).send(error.message)
   }
 }

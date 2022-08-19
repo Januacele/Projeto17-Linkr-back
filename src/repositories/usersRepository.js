@@ -18,8 +18,10 @@ async function getUser(){
 }
 
 async function searchUsers(username) {
+  
+  console.log(username)
   return db.query(
-    `SELECT users.id, users.username, users.profile_image FROM users WHERE username LIKE '%' || $1 || '%'`,
+    `SELECT users.id, users.username FROM users WHERE username LIKE '%' || $1 || '%'`,
     [username]
   );
 }

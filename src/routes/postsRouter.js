@@ -12,16 +12,16 @@ import { sharePost, countShares } from '../controllers/shareController.js';
 
 const postsRouter = Router()
 
-postsRouter.post("/posts", tokenValidation, validateSchema(postSchema), savePost)
-postsRouter.get("/posts", tokenValidation, getPosts);
-postsRouter.get("/posts/new/:id", tokenValidation, getNewPosts);
-postsRouter.get("/posthashtags/:name",tokenValidation, userHashtagValidation, getTimelineController);
-postsRouter.put('/editpost/:id', tokenValidation, editPost)
-postsRouter.delete('/deletepost/:id', deletePostValidation, deletePostController)
-postsRouter.post("/posts/comment", tokenValidation, validateSchema(commentSchema), addComment);
-postsRouter.get("/posts/comment/:id", tokenValidation, getComments);
-postsRouter.get("/posts/commentcount/:id", tokenValidation, countComments);
-postsRouter.post("/posts/share", tokenValidation, sharePost);
-postsRouter.get("/posts/sharecount/:id", tokenValidation, countShares);
+postsRouter.post("/posts", tokenValidation, validateSchema(postSchema), savePost) // working
+postsRouter.get("/posts", tokenValidation, getPosts);// working
+postsRouter.get("/posts/new/:id", tokenValidation, getNewPosts);// working
+postsRouter.get("/posthashtags/:name",tokenValidation, userHashtagValidation, getTimelineController);// working
+postsRouter.put('/editpost/:id', tokenValidation, editPost)// working
+postsRouter.delete('/deletepost/:id', deletePostValidation, deletePostController)// working
+postsRouter.post("/posts/comment", tokenValidation, validateSchema(commentSchema), addComment);// working
+postsRouter.get("/posts/comment/:id", tokenValidation, getComments);// working
+postsRouter.get("/posts/commentcount/:id", tokenValidation, countComments);// working
+postsRouter.post("/posts/share", tokenValidation, sharePost);// Erro de Foreign Key
+postsRouter.get("/posts/sharecount/:id", tokenValidation, countShares);// Depende do erro acima
 
 export default postsRouter

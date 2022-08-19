@@ -10,7 +10,7 @@ async function likePost(user_id, post_id) {
 
 async function getLikes(post_id) {
   return db.query(`
-    SELECT * COUNT(user_id) as "likeCount"
+    SELECT COUNT(user_id) as "likeCount"
     FROM likes
     JOIN users ON user_id = users.id
     WHERE post_id= $1
