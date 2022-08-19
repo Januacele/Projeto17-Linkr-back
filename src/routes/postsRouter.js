@@ -7,7 +7,7 @@ import { postSchema } from "../schemas/postSchema.js";
 import { commentSchema } from "../schemas/commentSchema.js";
 import { userHashtagValidation } from '../middlewares/validatePost.js';
 import {getTimelineController} from '../controllers/timelineController.js';
-import { addComment, getComments } from '../controllers/commentController.js';
+import { addComment, getComments, countComments } from '../controllers/commentController.js';
 
 const postsRouter = Router()
 
@@ -19,5 +19,6 @@ postsRouter.put('/editpost/:id', tokenValidation, editPost)
 postsRouter.delete('/deletepost/:id', deletePostValidation, deletePostController)
 postsRouter.post("/posts/comment", tokenValidation, validateSchema(commentSchema), addComment);
 postsRouter.get("/posts/comment/:id", tokenValidation, getComments);
+postsRouter.get("/posts/commentcount/:id", tokenValidation, countComments);
 
 export default postsRouter

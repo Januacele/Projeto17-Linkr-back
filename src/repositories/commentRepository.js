@@ -17,11 +17,18 @@ async function getComments(user_id) {
       JOIN posts as t2 ON comments.post_id=t2.id 
       WHERE comments.post_id=$1`, [user_id]
     );
+};
+
+async function countComments(post_id) {
+    return db.query(
+      `SELECT COUNT(*) FROM "comments" WHERE post_id=$1`,
+      [post_id]);
   };
 
 const commentRepository = {
     insertComment,
-    getComments
+    getComments,
+    countComments
 }
 
 export default commentRepository;

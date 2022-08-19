@@ -41,3 +41,15 @@ export async function getComments(req, res) {
       return res.sendStatus(500);
     }
   }
+
+
+  export async function countComments(req, res) {
+    try {
+      const { id: post_id } = req.params;
+      const postComments = await commentRepository.countComments(post_id);
+      return res.status(200).send(postComments.rows[0].count);
+    } catch (error) {
+      console.log(error);
+      return res.sendStatus(500);
+    }
+  }
